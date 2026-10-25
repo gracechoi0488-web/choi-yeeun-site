@@ -117,6 +117,10 @@
   .faq{display:grid;gap:28px}
   .faq h3{font-size:1.25rem;margin-bottom:6px}
 
+  .contact-row{display:flex;gap:12px 16px;flex-wrap:wrap;align-items:center}
+  .email{font-family:var(--display);font-size:clamp(1.25rem,4.5vw,1.6rem);text-decoration:none;background:var(--accent);padding:4px 12px;border-radius:6px;user-select:all;overflow-wrap:anywhere}
+  .foot-links{display:flex;gap:16px;flex-wrap:wrap}
+
   footer{border-top:1px solid var(--line)}
   footer .wrap{padding-block:32px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.9375rem}
 </style>
@@ -130,6 +134,7 @@
       <a href="#sheet">설계표</a>
       <a href="#why">이유</a>
       <a href="#faq">FAQ</a>
+      <a href="#contact">문의</a>
     </nav>
   </div>
 </header>
@@ -264,12 +269,25 @@
       <div class="cta"><a class="btn solid" href="#sheet">첫 화 설계표로 가기</a></div>
     </div>
   </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <h2>최예은에게 어떻게 문의할 수 있을까?</h2>
+      <p class="answer">이메일로 편하게 보내 주세요.</p>
+      <p>쓰고 싶은 장르와 지금 막힌 곳을 한 줄씩 적어 주면 좋아요. 채워 둔 첫 화 설계표를 붙여 보내도 돼요.</p>
+      <div class="contact-row">
+        <a class="email" href="mailto:cooper2832@naver.com">cooper2832@naver.com</a>
+        <button class="btn" type="button" id="copyEmail">주소 복사</button>
+        <span class="status" id="emailStatus" role="status" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer>
   <div class="wrap">
     <span>최예은 · AI 웹소설 창작 설계자</span>
-    <a href="https://www.kaci.ai.kr" target="_blank" rel="noopener">공인 정보 kaci.ai.kr</a>
+    <span class="foot-links"><a href="mailto:cooper2832@naver.com">cooper2832@naver.com</a><a href="https://www.kaci.ai.kr" target="_blank" rel="noopener">공인 정보 kaci.ai.kr</a></span>
   </div>
 </footer>
 
@@ -310,6 +328,15 @@
     try{
       navigator.clipboard.writeText(text).then(function(){status.textContent='복사했어요.'},fallback);
     }catch(err){fallback()}
+  });
+  el('copyEmail').addEventListener('click',function(){
+    var addr='cooper2832@naver.com', st=el('emailStatus');
+    function fb(){
+      var r=document.createRange(); r.selectNodeContents(document.querySelector('.email'));
+      var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      st.textContent='주소를 선택해 뒀어요. 복사해 주세요.';
+    }
+    try{ navigator.clipboard.writeText(addr).then(function(){st.textContent='복사했어요.'},fb); }catch(e){fb()}
   });
   el('clearBtn').addEventListener('click',function(){
     ids.forEach(function(id){ if(id!=='genre') el(id).value=''; });
